@@ -51,9 +51,10 @@ public class Lexer {
         while (pos < length) {
             char current = peek();
 
-            if (current == '{') {
+            if (current == '$' && input.charAt(pos + 1) == '{') {
+                pos++;                              //skip $
                 String setStr = getSetStr();
-                pos += setStr.length();
+                pos += setStr.length();             //skip Set definition
 
                 Set set = tokenizeSet(setStr);
                 addToken(set);
@@ -103,9 +104,11 @@ public class Lexer {
                 figureNumber++;
             } else if (current == '}') {
                 figureNumber--;
+                iterator++;
+                continue;
             }
 
-            if (figureNumber == 1 && current != '{' && current != '}' && current != ',') {
+            if (figureNumber == 1 && current != '{' && current != ',') {
                 StringBuilder builder = new StringBuilder();
 
                 while (current != ',' && current != '}') {
@@ -116,11 +119,11 @@ public class Lexer {
 
                 String elementStr = builder.toString();
                 if (elementStr.contains("{")) {
-                    throw new RuntimeException("Invalid set element -> '" + elementStr + "'!");
+                    throw new RuntimeException("Invalid upper set element -> '" + elementStr + "'!");
                 }
 
                 set.addElement(new Element(elementStr));
-                continue;
+                continue;   //iterator already increased
             }
 
             if (figureNumber > 1) {
@@ -142,6 +145,10 @@ public class Lexer {
                 String subSetString = builder.toString();
                 Set subSet = tokenizeSet(subSetString);
                 set.addElement(subSet);
+
+                // skip last } of subset and continue cycle
+                iterator++;
+                continue;
             }
 
             iterator++;
@@ -150,12 +157,11 @@ public class Lexer {
         return set;
     }
 
-
     private void tokenizeWord() {
         StringBuilder builder = new StringBuilder();
         while (true) {
             char current = peek();
-            if (!Character.isLetterOrDigit(current) && current != '_' && current != '$') {
+            if (!Character.isLetterOrDigit(current) && current != '_') {
                 break;
             }
             builder.append(current);
@@ -164,10 +170,17 @@ public class Lexer {
 
         String word = builder.toString();
         switch (word) {
-            case "print": addToken(TokenType.PRINT); break;
-            case "if": addToken(TokenType.IF); break;
-            case "else": addToken(TokenType.ELSE); break;
-            default: addToken(TokenType.WORD, word);
+            case "print":
+                addToken(TokenType.PRINT);
+                break;
+            case "if":
+                addToken(TokenType.IF);
+                break;
+            case "else":
+                addToken(TokenType.ELSE);
+                break;
+            default:
+                addToken(TokenType.WORD, word);
         }
     }
 
@@ -182,11 +195,20 @@ public class Lexer {
                 pos++;
                 current = peek();
                 switch (current) {
-                    case '"': builder.append('"'); break;
-                    case 'n': builder.append('\n'); break;
-                    case 't': builder.append('\t'); break;
-                    case '\\': builder.append('\\'); break;
-                    default: throw new RuntimeException("Unknown text symbol");
+                    case '"':
+                        builder.append('"');
+                        break;
+                    case 'n':
+                        builder.append('\n');
+                        break;
+                    case 't':
+                        builder.append('\t');
+                        break;
+                    case '\\':
+                        builder.append('\\');
+                        break;
+                    default:
+                        throw new RuntimeException("Unknown text symbol");
                 }
 
                 pos++;  //skip ", \n, \t, \
@@ -230,7 +252,6 @@ public class Lexer {
             current = peek();
         }
     }
-
 
 
     private void tokenizeComment() {
