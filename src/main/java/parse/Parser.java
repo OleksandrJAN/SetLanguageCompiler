@@ -5,7 +5,6 @@ import domain.token.TokenType;
 import expression.*;
 import statement.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
@@ -49,8 +48,17 @@ public class Parser {
         if (match(TokenType.WHILE)) {
             return whileStatement();
         }
+        if (match(TokenType.DO)) {
+            return doWhileStatement();
+        }
         if (match(TokenType.FOR)) {
             return forStatement();
+        }
+        if (match(TokenType.BREAK)) {
+            return new BreakStatement();
+        }
+        if (match(TokenType.CONTINUE)) {
+            return new ContinueStatement();
         }
 
         return assignmentStatement();
@@ -65,7 +73,9 @@ public class Parser {
     }
 
     private Statement ifElseStatement() {
+        consume(TokenType.LPAREN);
         Expression condition = expression();
+        consume(TokenType.RPAREN);
         Statement ifStatement = blockOrSingleStatement();
         Statement elseStatement;
 
@@ -81,6 +91,13 @@ public class Parser {
         Expression condition = expression();
         Statement statement = blockOrSingleStatement();
         return new WhileStatement(condition, statement);
+    }
+
+    private Statement doWhileStatement() {
+        Statement statement = blockOrSingleStatement();
+        consume(TokenType.WHILE);
+        Expression condition = expression();
+        return new DoWhileStatement(condition, statement);
     }
 
     private Statement forStatement() {

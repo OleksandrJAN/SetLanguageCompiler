@@ -19,7 +19,13 @@ public class ForStatement implements Statement {
     @Override
     public void execute() {
         for (initialization.execute(); (boolean) termination.eval().getValue(); modification.execute()) {
-            statement.execute();
+            try {
+                statement.execute();
+            } catch (BreakStatement breakStatement) {
+                break;
+            } catch (ContinueStatement continueStatement) {
+                // continue;
+            }
         }
     }
 }

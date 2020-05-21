@@ -1,19 +1,71 @@
 
-a = {a,b,{d,q},c} * ({c,b,{a}} + {a,d})
-b = {a,b,{d,q},c} - a
+a = ${a,b,c}
+b = ${a,b,c,$a,{$a}}
+c = b - a - ${$a} - ${{$a}}
 
 print "a = " + a + "\n"
 print "b = " + b + "\n"
+print "c = " + c + "\n"
 
 
-print "test if condition\n"
 
-c = {a,b,d}
-d = {b,a,c}
-a = (c - d) + (d - c)
+print "\ntest if condition\n"
 
-if (c - d == {} && d - c == {}) print "true\n"
-else print "false\n"
+c = ${a,b,d}
+d = ${b,a,c}
 
-print a
+if (c - d == ${} && d - c == ${}) {
+    print "if\n"
+    print "if check\n"
+} else if (c - d == ${c}) {
+    print "else if\n"
+    print "else if check\n"
+} else {
+    print "else\n"
+}
+
+
+print "\ntest while cycle\n"
+whileTest = "a"
+while (whileTest != "aaaaaaaaaa") {
+    print "whileTest = " + whileTest + "\n"
+    if (whileTest == "aaaaaaa") {
+        break
+    }
+    if (whileTest == "aa") {
+        whileTest = whileTest + "aaa"
+        continue
+    }
+    whileTest = whileTest + "a"
+}
+
+
+print "\ntest do-while cycle\n"
+doWhileTest = "a"
+do {
+   print "doWhileTest = " + doWhileTest + "\n"
+   if (doWhileTest == "aaaaaaa") {
+       break
+   }
+   if (doWhileTest == "aa") {
+       doWhileTest = doWhileTest + "aaa"
+       continue
+   }
+   doWhileTest = doWhileTest + "a"
+} while (doWhileTest != "aaaaaaaaaa")
+
+
+print "\ntest for cycle\n"
+forTest = "a"
+for (i = "a", i != "aaaaaaaaaa", i = i + "a") {
+    print "forTest = " + forTest + "\n"
+    if (forTest == "aaaaaaa") {
+        break
+    }
+    if (forTest == "aa") {
+        forTest = forTest + "aaa"
+        continue
+    }
+    forTest = forTest + "a"
+}
 

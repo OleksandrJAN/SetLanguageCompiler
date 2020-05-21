@@ -2,19 +2,19 @@ package statement;
 
 import expression.Expression;
 
-public class WhileStatement implements Statement {
+public class DoWhileStatement implements Statement {
 
     private Expression condition;
     private Statement statement;
 
-    public WhileStatement(Expression condition, Statement statement) {
+    public DoWhileStatement(Expression condition, Statement statement) {
         this.condition = condition;
         this.statement = statement;
     }
 
     @Override
     public void execute() {
-        while ((boolean) condition.eval().getValue()) {
+        do {
             try {
                 statement.execute();
             } catch (BreakStatement breakStatement) {
@@ -22,6 +22,6 @@ public class WhileStatement implements Statement {
             } catch (ContinueStatement continueStatement) {
                 // continue;
             }
-        }
+        } while ((boolean) condition.eval().getValue());
     }
 }
