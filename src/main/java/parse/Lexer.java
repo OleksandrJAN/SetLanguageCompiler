@@ -12,13 +12,16 @@ import java.util.Map;
 
 
 public class Lexer {
-    private static final String OPERATOR_CHARS = "+-*/()=<>!&|";
+    private static final String OPERATOR_CHARS = "+-*/(){}=<>!&|";
     private static final Map<String, TokenType> operationMap = new HashMap<String, TokenType>() {{
         put("+", TokenType.PLUS);
         put("-", TokenType.MINUS);
         put("*", TokenType.STAR);
+
         put("(", TokenType.LPAREN);
         put(")", TokenType.RPAREN);
+        put("{", TokenType.LBRACE);
+        put("}", TokenType.RBRACE);
 
         put("=", TokenType.EQ);
         put("==", TokenType.EQEQ);

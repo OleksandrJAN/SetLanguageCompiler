@@ -3,10 +3,7 @@ package parse;
 import domain.token.Token;
 import domain.token.TokenType;
 import expression.*;
-import statement.AssignmentStatement;
-import statement.IfElseStatement;
-import statement.PrintStatement;
-import statement.Statement;
+import statement.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +21,22 @@ public class Parser {
         this.size = tokens.size();
     }
 
-    public List<Statement> parse() {
-        final List<Statement> result = new ArrayList<>();
+    public Statement parse() {
+        final BlockStatement result = new BlockStatement();
         while (!match(TokenType.EOF)) {
             result.add(statement());
         }
         return result;
+    }
+
+    private Statement block() {
+        BlockStatement blockStatement = new BlockStatement();
+        consume(TokenType.LBRACE);                                          //skip {
+
+        while (!match(TokenType.RBRACE)) {
+            blockStatement.add(statement());
+        }
+        return blockStatement;
     }
 
     private Statement statement() {
@@ -44,12 +51,12 @@ public class Parser {
     }
 
     private Statement ifElseStatement() {
-        final Expression condition = expression();
-        final Statement ifStatement = statement();
-        final Statement elseStatement;
+        Expression condition = expression();
+        Statement ifStatement = (get(0).getType() == TokenType.LBRACE) ? block() : statement();
+        Statement elseStatement;
 
         if (match(TokenType.ELSE)) {
-            elseStatement = statement();
+            elseStatement = (get(0).getType() == TokenType.LBRACE) ? block() : statement();
         } else {
             elseStatement = null;
         }

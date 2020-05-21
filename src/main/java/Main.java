@@ -21,11 +21,8 @@ public class Main {
 //        }
 
         Parser parser = new Parser(tokens);
-        final List<Statement> statements = parser.parse();
-
-        for (Statement statement : statements) {
-            statement.execute();
-        }
+        Statement program = parser.parse();
+        program.execute();
 
 //        System.out.println("\nStatements");
 //        for (Statement statement : statements) {
