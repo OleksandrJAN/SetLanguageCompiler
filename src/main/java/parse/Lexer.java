@@ -12,7 +12,7 @@ import java.util.Map;
 
 
 public class Lexer {
-    private static final String OPERATOR_CHARS = "+-*/(){}=<>!&|";
+    private static final String OPERATOR_CHARS = "+-*/(){},=<>!&|";
     private static final Map<String, TokenType> operationMap = new HashMap<String, TokenType>() {{
         put("+", TokenType.PLUS);
         put("-", TokenType.MINUS);
@@ -22,6 +22,7 @@ public class Lexer {
         put(")", TokenType.RPAREN);
         put("{", TokenType.LBRACE);
         put("}", TokenType.RBRACE);
+        put(",", TokenType.COMMA);
 
         put("=", TokenType.EQ);
         put("==", TokenType.EQEQ);
@@ -181,6 +182,12 @@ public class Lexer {
                 break;
             case "else":
                 addToken(TokenType.ELSE);
+                break;
+            case "while":
+                addToken(TokenType.WHILE);
+                break;
+            case "for":
+                addToken(TokenType.FOR);
                 break;
             default:
                 addToken(TokenType.WORD, word);

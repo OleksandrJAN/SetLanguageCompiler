@@ -3,7 +3,7 @@ package domain.token;
 public enum TokenType {
     SET, WORD, TEXT,
     PLUS, MINUS, STAR, EQ, LT, GT, EQEQ, LTEQ, GTEQ, EXCL, EXCLEQ, BAR, BARBAR, AMP, AMPAMP,
-    LPAREN, RPAREN, LBRACE, RBRACE,
-    PRINT, IF, ELSE,
+    LPAREN, RPAREN, LBRACE, RBRACE, COMMA,
+    PRINT, IF, ELSE, WHILE, FOR,
     EOF
 }

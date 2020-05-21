@@ -46,21 +46,53 @@ public class Parser {
         if (match(TokenType.IF)) {
             return ifElseStatement();
         }
+        if (match(TokenType.WHILE)) {
+            return whileStatement();
+        }
+        if (match(TokenType.FOR)) {
+            return forStatement();
+        }
 
         return assignmentStatement();
     }
 
+    private Statement blockOrSingleStatement() {
+        if (get(0).getType() == TokenType.LBRACE) {
+            return block();
+        } else {
+            return statement();
+        }
+    }
+
     private Statement ifElseStatement() {
         Expression condition = expression();
-        Statement ifStatement = (get(0).getType() == TokenType.LBRACE) ? block() : statement();
+        Statement ifStatement = blockOrSingleStatement();
         Statement elseStatement;
 
         if (match(TokenType.ELSE)) {
-            elseStatement = (get(0).getType() == TokenType.LBRACE) ? block() : statement();
+            elseStatement = blockOrSingleStatement();
         } else {
             elseStatement = null;
         }
         return new IfElseStatement(condition, ifStatement, elseStatement);
+    }
+
+    private Statement whileStatement() {
+        Expression condition = expression();
+        Statement statement = blockOrSingleStatement();
+        return new WhileStatement(condition, statement);
+    }
+
+    private Statement forStatement() {
+        consume(TokenType.LPAREN);
+        Statement initialization = assignmentStatement();
+        consume(TokenType.COMMA);
+        Expression termination = expression();
+        consume(TokenType.COMMA);
+        Statement modification = assignmentStatement();
+        consume(TokenType.RPAREN);
+        Statement statement = blockOrSingleStatement();
+        return new ForStatement(initialization, termination, modification, statement);
     }
 
     private Statement assignmentStatement() {
