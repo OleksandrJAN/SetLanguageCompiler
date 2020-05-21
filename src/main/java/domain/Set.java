@@ -84,6 +84,10 @@ public class Set implements Serializable {
         return view;
     }
 
+    public SortedSet<Element> getElements() {
+        return elements;
+    }
+
     @Override
     public String toString() {
         return view;
