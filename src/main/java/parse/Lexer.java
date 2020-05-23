@@ -63,7 +63,7 @@ public class Lexer {
 
                 Set set = tokenizeSet(setStr);
                 addToken(set);
-            } else if (Character.isLetter(current)) {
+            } else if (Character.isLetterOrDigit(current)) {
                 tokenizeWord();
             } else if (current == '"') {
                 tokenizeText();
@@ -123,7 +123,7 @@ public class Lexer {
                 }
 
                 String elementStr = builder.toString();
-                if (elementStr.contains("{")) {
+                if (elementStr.contains("{") || elementStr.contains(" ")) {
                     throw new RuntimeException("Invalid upper set element -> '" + elementStr + "'!");
                 }
 
@@ -206,7 +206,12 @@ public class Lexer {
                 addToken(TokenType.RETURN);
                 break;
             default:
-                addToken(TokenType.WORD, word);
+                try {
+                    Double.valueOf(word);
+                    addToken(TokenType.NUMBER, word);
+                } catch (NumberFormatException e) {
+                    addToken(TokenType.WORD, word);
+                }
         }
     }
 

@@ -1,6 +1,7 @@
 package expression;
 
 import domain.Set;
+import domain.values.NumberValue;
 import domain.values.SetValue;
 import domain.values.StringValue;
 import domain.values.Value;
@@ -27,6 +28,22 @@ public class BinaryExpression implements Expression {
                 return new StringValue(value1.toString() + value2.toString());
             }
             throw new RuntimeException("Unknown String operation");
+        }
+
+        if (value1 instanceof Number && value2 instanceof Number) {
+            Number number1 = (Number) value1;
+            Number number2 = (Number) value2;
+            switch (operation) {
+                case PLUS:
+                    return new NumberValue(number1.doubleValue() + number2.doubleValue());
+                case STAR:
+                    return new NumberValue(number1.doubleValue() * number2.doubleValue());
+                case MINUS:
+                    return new NumberValue(number1.doubleValue() - number2.doubleValue());
+                case DIVIDE:
+                    return new NumberValue(number1.doubleValue() / number2.doubleValue());
+            }
+            throw new RuntimeException("Unknown Number operation");
         }
 
         if (value1 instanceof Set && value2 instanceof Set) {

@@ -36,6 +36,25 @@ public class ConditionalExpression implements Expression {
         }
     }
 
+    private boolean booleanEval(Number number1, Number number2) {
+        switch (operation) {
+            case EQEQ:
+                return number1.equals(number2);
+            case EXCLEQ:
+                return !number1.equals(number2);
+            case GT:
+                return number1.doubleValue() > number2.doubleValue();
+            case GTEQ:
+                return number1.doubleValue() >= number2.doubleValue();
+            case LT:
+                return number1.doubleValue() < number2.doubleValue();
+            case LTEQ:
+                return number1.doubleValue() <= number2.doubleValue();
+            default:
+                throw new RuntimeException("Unknown Number operation for -> '" + number1 + "' and '" + number2 + "'");
+        }
+    }
+
     private boolean booleanEval(Set set1, Set set2) {
         switch (operation) {
             case EQEQ:
@@ -77,6 +96,14 @@ public class ConditionalExpression implements Expression {
             String str2 = (String) value2;
 
             boolean result = booleanEval(str1, str2);
+            return new BooleanValue(result);
+        }
+
+        if (value1 instanceof Number && value2 instanceof Number) {
+            Number number1 = (Number) value1;
+            Number number2 = (Number) value2;
+
+            boolean result = booleanEval(number1, number2);
             return new BooleanValue(result);
         }
 

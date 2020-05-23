@@ -252,6 +252,9 @@ public class Parser {
         if (match(TokenType.TEXT)) {
             return new StringExpression(current.getText());
         }
+        if (match(TokenType.NUMBER)) {
+            return new NumberExpression(Double.valueOf(current.getText()));
+        }
         if (match(TokenType.LPAREN)) {
             Expression result = expression();
             if (!match(TokenType.RPAREN)) {
