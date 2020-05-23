@@ -12,11 +12,10 @@ public class Functions {
         functions = new HashMap<>();
     }
 
-    public static boolean isExists(String key) {
-        return functions.containsKey(key);
-    }
-
     public static Function get(String key) {
+        if (!functions.containsKey(key)) {
+            throw new RuntimeException("Function '" + key + "' does not exists");
+        }
         return functions.get(key);
     }
 
