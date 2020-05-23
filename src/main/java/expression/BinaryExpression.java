@@ -39,6 +39,8 @@ public class BinaryExpression implements Expression {
                     return new SetValue(set1.intersection(set2));
                 case MINUS:
                     return new SetValue(set1.difference(set2));
+                case DIVIDE:
+                    return new SetValue(set1.symmetricalDifference(set2));
             }
             throw new RuntimeException("Unknown Set operation");
         }

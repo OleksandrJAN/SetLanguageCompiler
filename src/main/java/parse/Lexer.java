@@ -17,6 +17,7 @@ public class Lexer {
         put("+", TokenType.PLUS);
         put("-", TokenType.MINUS);
         put("*", TokenType.STAR);
+        put("/", TokenType.DIVIDE);
 
         put("(", TokenType.LPAREN);
         put(")", TokenType.RPAREN);

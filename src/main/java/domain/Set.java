@@ -79,6 +79,13 @@ public class Set implements Serializable {
         return difference;
     }
 
+    public Set symmetricalDifference(Set another) {
+        Set firstDifference = this.difference(another);
+        Set secondDifference = another.difference(this);
+
+        return firstDifference.union(secondDifference);
+    }
+
 
     public String getView() {
         return view;

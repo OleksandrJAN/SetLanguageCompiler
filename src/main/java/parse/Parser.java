@@ -228,6 +228,10 @@ public class Parser {
                 result = new BinaryExpression(TokenType.MINUS, result, primary());
                 continue;
             }
+            if (match(TokenType.DIVIDE)) {
+                result = new BinaryExpression(TokenType.DIVIDE, result, primary());
+                continue;
+            }
             break;
         }
 
