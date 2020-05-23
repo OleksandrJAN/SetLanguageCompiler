@@ -18,9 +18,4 @@ public class VariableExpression implements Expression {
         }
         return Variables.get(name);
     }
-
-    @Override
-    public String toString() {
-        return String.format("%s = %s", name, Variables.get(name));
-    }
 }

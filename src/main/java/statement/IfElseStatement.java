@@ -22,14 +22,4 @@ public class IfElseStatement implements Statement {
             elseStatement.execute();
         }
     }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("if ").append(expression).append(" then ").append(ifStatement);
-        if (elseStatement != null) {
-            builder.append(" else ").append(elseStatement);
-        }
-        return builder.toString();
-    }
 }

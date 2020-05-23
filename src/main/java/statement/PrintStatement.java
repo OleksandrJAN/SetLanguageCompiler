@@ -15,9 +15,4 @@ public class PrintStatement implements Statement {
     public void execute() {
         System.out.print(expression.eval());
     }
-
-    @Override
-    public String toString() {
-        return "Print " + expression;
-    }
 }

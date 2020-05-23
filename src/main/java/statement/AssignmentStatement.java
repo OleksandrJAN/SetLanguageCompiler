@@ -20,8 +20,4 @@ public class AssignmentStatement implements Statement {
         Variables.add(variable, result);
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s = %s", variable, expression);
-    }
 }

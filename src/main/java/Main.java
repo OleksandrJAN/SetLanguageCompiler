@@ -24,10 +24,5 @@ public class Main {
         Statement program = parser.parse();
         program.execute();
 
-//        System.out.println("\nStatements");
-//        for (Statement statement : statements) {
-//            System.out.println(statement);
-//        }
-
     }
 }

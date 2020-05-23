@@ -15,9 +15,4 @@ public class StringExpression implements Expression {
     public Value eval() {
         return strValue;
     }
-
-    @Override
-    public String toString() {
-        return strValue.toString();
-    }
 }

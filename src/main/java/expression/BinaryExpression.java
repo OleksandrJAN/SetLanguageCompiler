@@ -64,9 +64,4 @@ public class BinaryExpression implements Expression {
 
         throw new RuntimeException("Unknown values");
     }
-
-    @Override
-    public String toString() {
-        return String.format("(%s %s %s)", expr1, operation, expr2);
-    }
 }
