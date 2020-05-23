@@ -1,4 +1,4 @@
-
+/*
 a = ${a,b,c}
 b = ${a,b,c,$a,{$a}}
 c = b - a - ${$a} - ${{$a}}
@@ -68,4 +68,25 @@ for (i = "a", i != "aaaaaaaaaa", i = i + "a") {
     }
     forTest = forTest + "a"
 }
+*/
+
+def test(set) {
+    set = set + ${$set}
+    return set
+}
+
+a = ${a,b}
+
+whileTest = "a"
+while (whileTest != "aaa") {
+    print "a = " + a + "\n"
+    a = test(a)
+    whileTest = whileTest + "a"
+}
+
+
+print "final a = " + a + "\n"
+
+
+
 

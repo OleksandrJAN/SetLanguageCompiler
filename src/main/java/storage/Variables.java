@@ -4,12 +4,25 @@ import domain.values.Value;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class Variables {
-    private static final Map<String, Value> variables;
+    public static final Value voidValue = () -> Void.TYPE;
+
+    private static Map<String, Value> variables;
+    private static Stack<Map<String, Value>> stack;
 
     static {
+        stack = new Stack<>();
         variables = new HashMap<>();
+    }
+
+    public static void push() {
+        stack.push(new HashMap<>(variables));
+    }
+
+    public static void pop() {
+        variables = stack.pop();
     }
 
     public static boolean isExists(String key) {

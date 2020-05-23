@@ -5,6 +5,7 @@ import domain.token.TokenType;
 import expression.*;
 import statement.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
@@ -27,6 +28,8 @@ public class Parser {
         }
         return result;
     }
+
+
 
     private Statement block() {
         BlockStatement blockStatement = new BlockStatement();
@@ -60,8 +63,26 @@ public class Parser {
         if (match(TokenType.CONTINUE)) {
             return new ContinueStatement();
         }
+        if (match(TokenType.DEF)) {
+            return functionDefine();
+        }
+        if (match(TokenType.RETURN)) {
+            return new ReturnStatement(expression());
+        }
 
         return assignmentStatement();
+    }
+
+    private FunctionDefineStatement functionDefine() {
+        String name = consume(TokenType.WORD).getText();
+        consume(TokenType.LPAREN);
+        List<String> argNames = new ArrayList<>();
+        while (!match(TokenType.RPAREN)) {
+            argNames.add(consume(TokenType.WORD).getText());
+            match(TokenType.COMMA);
+        }
+        Statement body = blockOrSingleStatement();
+        return new FunctionDefineStatement(name, argNames, body);
     }
 
     private Statement blockOrSingleStatement() {
@@ -122,6 +143,18 @@ public class Parser {
         throw new RuntimeException("Unknown statement");
     }
 
+
+
+    private Expression function() {
+        String name = consume(TokenType.WORD).getText();
+        consume(TokenType.LPAREN);
+        FunctionalExpression function = new FunctionalExpression(name);
+        while (!match(TokenType.RPAREN)) {
+            function.addArg(expression());
+            match(TokenType.COMMA);
+        }
+        return function;
+    }
 
     private Expression expression() {
         return logicalOperation();
@@ -201,11 +234,13 @@ public class Parser {
         return result;
     }
 
-
     private Expression primary() {
         final Token current = get(0);
         if (match(TokenType.SET)) {
             return new SetExpression(current.getSet());
+        }
+        if (get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.LPAREN) {
+            return function();
         }
         if (match(TokenType.WORD)) {
             return new VariableExpression(current.getText());
@@ -222,6 +257,7 @@ public class Parser {
         }
         throw new RuntimeException("Unknown expression");
     }
+
 
 
     private Token consume(TokenType type) {
