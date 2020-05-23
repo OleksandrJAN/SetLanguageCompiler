@@ -1,7 +1,12 @@
+// one-line comment
+
 /*
+    multiline comment
+*/
+
 a = ${a,b,c}
 b = ${a,b,c,$a,{$a}}
-c = b - a - ${$a} - ${{$a}}
+c = b - a - ${$a} - ${{$a}} + (${1,2,3} / ${2,3,4})
 
 print "a = " + a + "\n"
 print "b = " + b + "\n"
@@ -9,84 +14,51 @@ print "c = " + c + "\n"
 
 
 
-print "\ntest if condition\n"
+
+print "\ntest if-else condition\n"
 
 c = ${a,b,d}
 d = ${b,a,c}
 
 if (c - d == ${} && d - c == ${}) {
-    print "if\n"
-    print "if check\n"
+    print "if true\n"
 } else if (c - d == ${c}) {
-    print "else if\n"
-    print "else if check\n"
+    print "else if true\n"
 } else {
-    print "else\n"
+    print "else true\n"
 }
+
+
 
 
 print "\ntest while cycle\n"
-whileTest = "a"
-while (whileTest != "aaaaaaaaaa") {
-    print "whileTest = " + whileTest + "\n"
-    if (whileTest == "aaaaaaa") {
-        break
-    }
-    if (whileTest == "aa") {
-        whileTest = whileTest + "aaa"
+str = "a"
+while (str <= "aaaaa") {
+    print "str = " + str + "\n"
+    if (str == "aa") {
+        str = str + "aaa"
         continue
     }
-    whileTest = whileTest + "a"
+    if (str == "aaaa") {
+        break
+    }
+    str = str + "a"
 }
-
-
-print "\ntest do-while cycle\n"
-doWhileTest = "a"
-do {
-   print "doWhileTest = " + doWhileTest + "\n"
-   if (doWhileTest == "aaaaaaa") {
-       break
-   }
-   if (doWhileTest == "aa") {
-       doWhileTest = doWhileTest + "aaa"
-       continue
-   }
-   doWhileTest = doWhileTest + "a"
-} while (doWhileTest != "aaaaaaaaaa")
+print "str = " + str + "\n"
 
 
 print "\ntest for cycle\n"
-forTest = "a"
-for (i = "a", i != "aaaaaaaaaa", i = i + "a") {
-    print "forTest = " + forTest + "\n"
-    if (forTest == "aaaaaaa") {
-        break
-    }
-    if (forTest == "aa") {
-        forTest = forTest + "aaa"
-        continue
-    }
-    forTest = forTest + "a"
-}
-*/
 
-def test(set) {
+def setAsElement(set) {
     set = set + ${$set}
     return set
 }
 
 a = ${a,b}
-
-whileTest = "a"
-while (whileTest != "aaa") {
+for (i = 0, i < 5, i = i + 1) {
+    print "[i = " + i + "]\t"
+    if (i == 3 || i == 1) {
+        a = setAsElement(a)
+    }
     print "a = " + a + "\n"
-    a = test(a)
-    whileTest = whileTest + "a"
 }
-
-
-print "final a = " + a + "\n"
-
-
-
-
